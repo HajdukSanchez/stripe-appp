@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:stripe_app/blocs/blocs.dart';
 import 'package:stripe_app/enums/enums.dart';
 import 'package:stripe_app/routes/routes.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider(
+      create: (_) => PaymentBloc(),
+    )
+  ], child: const MyApp()));
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
