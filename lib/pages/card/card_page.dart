@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
+import 'package:stripe_app/blocs/blocs.dart';
 import 'package:stripe_app/models/models.dart';
 import 'package:stripe_app/widgets/widgets.dart';
 
@@ -21,7 +25,13 @@ class CardPage extends StatelessWidget {
         cardHolderName: 'Fernando Herrera');
 
     return Scaffold(
-        appBar: AppBar(title: const Text('Card')),
+        appBar: AppBar(
+            title: const Text('Card'),
+            leading: IconButton(
+                onPressed: () => _onTapBackButton(context),
+                icon: Icon(
+                  Platform.isAndroid ? Icons.arrow_back_rounded : Icons.arrow_back_ios_new_rounded,
+                ))),
         body: Stack(
           children: [
             Container(),
@@ -42,5 +52,11 @@ class CardPage extends StatelessWidget {
                 ))
           ],
         ));
+  }
+
+  void _onTapBackButton(BuildContext context) {
+    final paymentBloc = BlocProvider.of<PaymentBloc>(context);
+    paymentBloc.add(OnDesactiveCardEvent());
+    Navigator.pop(context);
   }
 }

@@ -26,4 +26,9 @@ class PaymentState {
         cardActive: cardActive ?? this.cardActive,
         totalPayment: totalPayment ?? this.totalPayment,
       );
+
+  @override
+  String toString() {
+    return "Payment state: {totalPayment: $totalPayment, moneyType: $moneyType, cardActive: $cardActive, card: $card}";
+  }
 }

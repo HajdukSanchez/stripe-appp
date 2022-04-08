@@ -13,4 +13,9 @@ class CustomCreditCard {
       required this.cvv,
       required this.expiracyDate,
       required this.cardHolderName});
+
+  @override
+  String toString() {
+    return "Custom credit card: {cardNumberHidden: $cardNumberHidden, cardNumber: $cardNumber, brand: $brand, cvv: $cvv, expiracyDate: $expiracyDate, cardHolderName: $cardHolderName}";
+  }
 }
