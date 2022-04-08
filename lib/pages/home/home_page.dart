@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:stripe_app/helpers/helpers.dart';
 import 'package:stripe_app/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
@@ -15,7 +16,7 @@ class HomePage extends StatelessWidget {
           actions: [
             IconButton(
               icon: const Icon(Icons.add),
-              onPressed: () {},
+              onPressed: () => _onTapAddCreditCard(context),
             ),
           ],
         ),
@@ -30,5 +31,13 @@ class HomePage extends StatelessWidget {
                 ))
           ],
         ));
+  }
+
+  void _onTapAddCreditCard(BuildContext context) async {
+    // showLoading(context, "Loading...");
+    showAlert(context, "Error", "Not payment processing");
+    // await Future.delayed(const Duration(seconds: 2), () {
+    //   Navigator.of(context).pop(); // Dismiss the loading dialog
+    // });
   }
 }
