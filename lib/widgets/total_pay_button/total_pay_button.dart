@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:stripe_app/blocs/payment/payment_bloc.dart';
 
 class TotalPayButton extends StatelessWidget {
   final double width;
@@ -48,6 +50,8 @@ class _ButtonPay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final paymentBloc = BlocProvider.of<PaymentBloc>(context);
+
     return MaterialButton(
       height: 45,
       minWidth: 150,
@@ -58,7 +62,7 @@ class _ButtonPay extends StatelessWidget {
       child: Row(
         children: [
           Icon(
-            !true
+            paymentBloc.state.cardActive
                 ? FontAwesomeIcons.solidCreditCard
                 : Platform.isAndroid
                     ? FontAwesomeIcons.google

@@ -7,7 +7,6 @@ import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 
 import 'package:stripe_app/blocs/blocs.dart';
-import 'package:stripe_app/models/models.dart';
 import 'package:stripe_app/widgets/widgets.dart';
 
 class CardPage extends StatelessWidget {
@@ -15,20 +14,15 @@ class CardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final paymentBloc = BlocProvider.of<PaymentBloc>(context);
     final size = MediaQuery.of(context).size;
-    final card = CustomCreditCard(
-        cardNumberHidden: '4242',
-        cardNumber: '4242424242424242',
-        brand: 'visa',
-        cvv: '213',
-        expiracyDate: '01/25',
-        cardHolderName: 'Fernando Herrera');
+    final card = paymentBloc.state.card!;
 
     return Scaffold(
         appBar: AppBar(
             title: const Text('Card'),
             leading: IconButton(
-                onPressed: () => _onTapBackButton(context),
+                onPressed: () => _onTapBackButton(context, paymentBloc),
                 icon: Icon(
                   Platform.isAndroid ? Icons.arrow_back_rounded : Icons.arrow_back_ios_new_rounded,
                 ))),
@@ -54,9 +48,8 @@ class CardPage extends StatelessWidget {
         ));
   }
 
-  void _onTapBackButton(BuildContext context) {
-    final paymentBloc = BlocProvider.of<PaymentBloc>(context);
-    paymentBloc.add(OnDesactiveCardEvent());
+  void _onTapBackButton(BuildContext context, PaymentBloc bloc) {
+    bloc.add(OnDesactiveCardEvent());
     Navigator.pop(context);
   }
 }
