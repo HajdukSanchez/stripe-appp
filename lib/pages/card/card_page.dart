@@ -32,10 +32,10 @@ class CardPage extends StatelessWidget {
             Hero(
               tag: card.cardNumber,
               child: CreditCardWidget(
+                  cvvCode: card.cvv,
                   cardNumber: card.cardNumber,
                   expiryDate: card.expiracyDate,
                   cardHolderName: card.cardHolderName,
-                  cvvCode: card.cvv,
                   showBackView: false,
                   onCreditCardWidgetChange: (CreditCardBrand card) {}),
             ),
