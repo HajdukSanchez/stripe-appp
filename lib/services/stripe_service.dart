@@ -1,6 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:stripe_app/models/models.dart';
 
 class StripeService {
   // Singleton
@@ -8,7 +7,7 @@ class StripeService {
   static final StripeService _instance = StripeService._privateConstructor();
   factory StripeService() => _instance;
 
-  String _paymentApiURL = "https://api.stripe.com/v1/payment_intents";
+  String _paymentAPIURL = dotenv.env['PAYMENT_API_URL'] ?? "";
   String secretKey = dotenv.env['STRIPE_SECRET_KEY'] ?? "";
 
   void init() {}
@@ -16,14 +15,27 @@ class StripeService {
   Future payWithExistingCreditCard({
     required String amount,
     required String currency,
-    required CustomCreditCard creditCard,
+    required Card creditCard,
   }) async {}
 
-  Future payWithNewCreditCard() async {}
+  Future payWithNewCreditCard({
+    required String amount,
+    required String currency,
+  }) async {}
 
-  Future payWithApplePayOrGooglePay() async {}
+  Future payWithApplePayOrGooglePay({
+    required String amount,
+    required String currency,
+  }) async {}
 
-  Future _createPaymentIntent() async {}
+  Future _createPaymentIntent({
+    required String amount,
+    required String currency,
+  }) async {}
 
-  Future _makePayment() async {}
+  Future _makePayment({
+    required String amount,
+    required String currency,
+    required PaymentMethod paymentMethod,
+  }) async {}
 }
