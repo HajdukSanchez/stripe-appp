@@ -7,4 +7,5 @@ import 'package:stripe_app/pages/pages.dart';
 final Map<String, WidgetBuilder> routes = {
   ROUTES.homePage.name: (_) => const HomePage(),
   ROUTES.completePaymentPage.name: (_) => const CompletePaymentPage(),
+  ROUTES.cardInformationPage.name: (_) => const CardInformationPage(),
 };
