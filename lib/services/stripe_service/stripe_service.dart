@@ -37,13 +37,8 @@ class StripeService {
     required PaymentMethod paymentMethod,
   }) async {
     try {
-      // final paymentMethod = await Stripe.instance.createPaymentMethod(paymentMethodParams);
-      final PaymentIntentResponse response =
-          await _createPaymentIntent(amount: amount, currency: currency);
-
-      return StripeCustomResponse(isSuccess: true);
+      return await _makePayment(amount: amount, currency: currency, paymentMethod: paymentMethod);
     } catch (e) {
-      print(e);
       return StripeCustomResponse(isSuccess: false, message: e.toString());
     }
   }
@@ -73,9 +68,24 @@ class StripeService {
     }
   }
 
-  Future _makePayment({
+  Future<StripeCustomResponse> _makePayment({
     required String amount,
     required String currency,
     required PaymentMethod paymentMethod,
-  }) async {}
+  }) async {
+    try {
+      final PaymentIntentResponse paymentIntentResponse =
+          await _createPaymentIntent(amount: amount, currency: currency);
+      final paymentResult = await Stripe.instance.confirmPayment(
+          '${paymentIntentResponse.clientSecret}',
+          PaymentMethodParams.cardFromMethodId(paymentMethodId: paymentMethod.id));
+
+      return (paymentResult.status == PaymentIntentsStatus.Succeeded)
+          ? StripeCustomResponse(isSuccess: true)
+          : StripeCustomResponse(
+              isSuccess: false, message: 'Something went wrong: ${paymentResult.status}');
+    } catch (e) {
+      return StripeCustomResponse(isSuccess: false, message: e.toString());
+    }
+  }
 }

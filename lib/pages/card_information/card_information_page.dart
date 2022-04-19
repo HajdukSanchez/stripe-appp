@@ -46,6 +46,8 @@ class CardInformationPage extends StatelessWidget {
   }
 
   _onPayWithNewCreditCard(context) async {
+    showLoading(context, "Validating payment information..."); // Open loading dialog
+
     final stripeService = StripeService();
     final paymentBloc = BlocProvider.of<PaymentBloc>(context);
 
@@ -56,6 +58,8 @@ class CardInformationPage extends StatelessWidget {
         amount: paymentBloc.state.amountString,
         currency: paymentBloc.state.currency,
         paymentMethod: paymentMethod);
+
+    Navigator.pop(context); // Close loading dialog
 
     (response.isSuccess)
         ? showAlert(context, 'Payment Successful', 'Payment successful with new credit card')
