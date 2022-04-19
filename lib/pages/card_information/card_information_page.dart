@@ -25,6 +25,7 @@ class CardInformationPage extends StatelessWidget {
                 hintStyle: TextStyle(color: Colors.white),
               ),
               style: TextStyle(color: Colors.white),
+              autofocus: true,
             ),
             const SizedBox(height: 20),
             MaterialButton(
