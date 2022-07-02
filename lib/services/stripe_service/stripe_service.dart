@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:dio/dio.dart';
@@ -28,8 +30,20 @@ class StripeService {
   Future payWithExistingCreditCard({
     required String amount,
     required String currency,
-    required Card creditCard,
-  }) async {}
+    required CustomCreditCard creditCard,
+  }) async {
+    try {
+      // final monthYear = creditCard.expiracyDate.split('/');
+      // Card existCard = Card(
+      //   brand: creditCard.brand,
+      //   expMonth: int.parse(monthYear[0]),
+      //   expYear: int.parse(monthYear[1]),
+      //   last4: creditCard.cardNumber.substring(-4, -1),
+      // );
+    } catch (e) {
+      return StripeCustomResponse(isSuccess: false, message: e.toString());
+    }
+  }
 
   Future<StripeCustomResponse> payWithNewCreditCard({
     required String amount,
@@ -46,7 +60,11 @@ class StripeService {
   Future payWithApplePayOrGooglePay({
     required String amount,
     required String currency,
-  }) async {}
+  }) async {
+    try {} catch (e) {
+      return StripeCustomResponse(isSuccess: false, message: e.toString());
+    }
+  }
 
   Future<PaymentIntentResponse> _createPaymentIntent({
     required String amount,

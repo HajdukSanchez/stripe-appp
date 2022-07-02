@@ -9,7 +9,7 @@ class PaymentState {
 
   const PaymentState({
     this.card,
-    this.amount = 275.55,
+    this.amount = 375.56,
     this.currency = "USD",
     this.cardActive = false,
   });
