@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 
+import 'package:stripe_app/blocs/blocs.dart';
 import 'package:stripe_app/data/data.dart';
 import 'package:stripe_app/helpers/helpers.dart';
+import 'package:stripe_app/models/models.dart';
 import 'package:stripe_app/pages/pages.dart';
 
 class CreditCardList extends StatelessWidget {
@@ -21,7 +24,7 @@ class CreditCardList extends StatelessWidget {
         final card = creditCards[index];
 
         return GestureDetector(
-          onTap: () => _onCreditCardTap(context),
+          onTap: () => _onCreditCardTap(context, card),
           child: Hero(
             tag: card.cardNumber,
             child: CreditCardWidget(
@@ -37,7 +40,9 @@ class CreditCardList extends StatelessWidget {
     );
   }
 
-  void _onCreditCardTap(BuildContext context) {
+  void _onCreditCardTap(BuildContext context, CustomCreditCard card) {
+    final paymentBloc = BlocProvider.of<PaymentBloc>(context);
+    paymentBloc.add(OnSelectCardEvent(card));
     Navigator.push(context, navigateFadeIn(context, const CardPage()));
   }
 }

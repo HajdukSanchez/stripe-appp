@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:stripe_app/blocs/payment/payment_bloc.dart';
+import 'package:stripe_app/helpers/helpers.dart';
 
 class TotalPayButton extends StatelessWidget {
   final double width;
@@ -11,6 +14,8 @@ class TotalPayButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final paymentBloc = BlocProvider.of<PaymentBloc>(context);
+
     return Container(
       width: width,
       height: 120,
@@ -25,14 +30,14 @@ class TotalPayButton extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text(
+            children: [
+              const Text(
                 "Total",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Text(
-                "250.55 USD",
-                style: TextStyle(fontSize: 20),
+                '${paymentBloc.state.amount} ${paymentBloc.state.currency}',
+                style: const TextStyle(fontSize: 20),
               )
             ],
           ),
@@ -48,17 +53,19 @@ class _ButtonPay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final paymentBloc = BlocProvider.of<PaymentBloc>(context);
+
     return MaterialButton(
       height: 45,
       minWidth: 150,
       elevation: 0,
       color: Colors.black,
       shape: const StadiumBorder(),
-      onPressed: () {},
+      onPressed: () => {(paymentBloc.state.card != null) ? _onButtonPayTap(context) : Error()},
       child: Row(
         children: [
           Icon(
-            !true
+            paymentBloc.state.cardActive
                 ? FontAwesomeIcons.solidCreditCard
                 : Platform.isAndroid
                     ? FontAwesomeIcons.google
@@ -73,5 +80,11 @@ class _ButtonPay extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _onButtonPayTap(BuildContext context) {
+    showLoading(context, "Validating payment information..."); // Open loading dialog
+    Navigator.pop(context); // Close loading dialog
+    showAlert(context, 'Payment unsuccessful', 'Error handle payment with existing credit card');
   }
 }

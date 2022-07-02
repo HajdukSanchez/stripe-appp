@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:stripe_app/enums/enums.dart';
 
-import 'package:stripe_app/helpers/helpers.dart';
 import 'package:stripe_app/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
@@ -33,11 +33,7 @@ class HomePage extends StatelessWidget {
         ));
   }
 
-  void _onTapAddCreditCard(BuildContext context) async {
-    // showLoading(context, "Loading...");
-    showAlert(context, "Error", "Not payment processing");
-    // await Future.delayed(const Duration(seconds: 2), () {
-    //   Navigator.of(context).pop(); // Dismiss the loading dialog
-    // });
+  void _onTapAddCreditCard(BuildContext context) {
+    Navigator.pushNamed(context, ROUTES.cardInformationPage.name);
   }
 }

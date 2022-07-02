@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'package:stripe_app/blocs/blocs.dart';
 import 'package:stripe_app/enums/enums.dart';
 import 'package:stripe_app/routes/routes.dart';
+import 'package:stripe_app/services/services.dart';
 
-void main() => runApp(const MyApp());
+Future main() async {
+  await dotenv.load(fileName: ".env"); // Load the ENV variables
+  StripeService().init(); // Init Singleton
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider(
+      create: (_) => PaymentBloc(),
+    )
+  ], child: const MyApp()));
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
